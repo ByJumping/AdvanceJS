@@ -1,0 +1,20 @@
+{
+  "name": "webserver",
+  "version": "1.0.0",
+  "description": "advansed js",
+  "main": "system.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node system.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ByJumping/AdvanceJS.git"
+  },
+  "author": "Pravdin Aleksey",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ByJumping/AdvanceJS/issues"
+  },
+  "homepage": "https://github.com/ByJumping/AdvanceJS#readme"
+}
