@@ -1,12 +1,22 @@
 const http = require('http');
 const fs = require('fs');
 
-const server = http.createServer((req, res) => {
-    console.log(req.url);
-    const body = req.url === '/css/style.css'
-    ? fs.readFileSync('public/css/style.css', 'utf8')
-    : fs.readFileSync('public/index.html', 'utf8');
-    res.end(body);
+const server = http.createServer(function (request, response) {
+
+    console.log(`Запрошенный адрес: ${request.url}`);
+    // получаем путь после слеша
+    const body = request.url;
+    fs.readFile(body, function (error, data) {
+
+        if (error) {
+
+            response.statusCode = 404;
+            response.end("Resourse not found!");
+        }
+        else {
+            response.end(data);
+        }
+    });
 });
 
 const port = process.env.PORT || 7777;
