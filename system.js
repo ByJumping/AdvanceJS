@@ -1,22 +1,24 @@
 const http = require('http');
 const fs = require('fs');
 
-const server = http.createServer(function (request, response) {
+const server = http.createServer(function (req, res) {
 
-    console.log(`Запрошенный адрес: ${request.url}`);
-    // получаем путь после слеша
-    const body = request.url;
-    fs.readFile(body, function (error, data) {
+    console.log(req.url);
+    let body = null;
 
-        if (error) {
-
-            response.statusCode = 404;
-            response.end("Resourse not found!");
+    try {
+        const ext = req.url.split('.')[1];
+        const isSvg = ext === 'svg';
+        if (isSvg) {
+            res.setHeader('Content-Type', 'image/svg+xml');
         }
-        else {
-            response.end(data);
-        }
-    });
+
+        body = fs.readFileSync(`public${req.url}`);
+    } catch (err) {
+        body = fs.readFileSync(`public/index.html`);
+    }
+
+    res.end(body);
 });
 
 const port = process.env.PORT || 7777;
