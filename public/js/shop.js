@@ -41,6 +41,9 @@ class GoodItem {
     addToCart() {
         this._CartInstane.add(this)
         console.log('Added', this._name)
+        // btn.addEventListener('click', () => {
+        //     new CartItem()
+        // })
     }
 
     render() {
@@ -68,10 +71,10 @@ class CartItem {
     price = 0
     img = ''
 
-    constructor(name, price, img) {
-        this.name = name
-        this.price = price
-        this.img = img
+    constructor(GoodItemInstance) {
+        this.name = GoodItemInstance._name
+        this.price = GoodItemInstance._price
+        this.img = GoodItemInstance._img
         this.render()
     }
 
