@@ -1,10 +1,10 @@
 class List {
     _items = []
 
-    constructor(CartInstane) {
+    constructor(CartInstance) {
         let goods = this.fetchGoods()
         goods = goods.map(item => {
-            return new GoodItem(item, CartInstane)
+            return new GoodItem(item, CartInstance)
         })
         this._items = goods
         this.render()
@@ -12,9 +12,9 @@ class List {
 
     fetchGoods() {
         return [
-            { name: 'Apple', price: 150, img: '/img/apple.jpg' },
-            { name: 'Pear', price: 250, img: '/img/pear.jpg' },
-            { name: 'Orange', price: 750, img: '/img/orange.jpg' },
+            { name: 'Апельсин', price: 300, img: './img/orange.jpg' },
+            { name: 'Груша', price: 450, img: './img/pear.jpg' },
+            { name: 'Яблоко', price: 180, img: './img/apple.jpg' },
         ]
     }
 
@@ -28,69 +28,100 @@ class List {
 class GoodItem {
     _name = ''
     _price = 0
-    _img = 0
-    _CartInstane = null
+    _img = ''
+    _CartInstance = null
 
-    constructor({ name, price, img }, CartInstane) {
+    constructor({ name, price, img }, CartInstance) {
         this._name = name
         this._price = price
         this._img = img
-        this._CartInstane = CartInstane
+        this._CartInstance = CartInstance
+
     }
 
     addToCart() {
-        this._CartInstane.add(this)
-        console.log('Added', this._name)
-        // btn.addEventListener('click', () => {
-        //     new CartItem()
-        // })
+        this._CartInstance.add({ name: this._name, price: this._price, quantity: 1 })
     }
 
     render() {
-        const placeToRender = document.querySelector('.goods-list')
+        const placeToRender = document.querySelector('.header')
         if (placeToRender) {
             const block = document.createElement('div')
-            block.innerHTML = `
-            Товар: ${this._name} = ${this._price}
-            <img src="${this._img}" />
-            `
-
-            const btn = new Button('Добавить в корзину', this.addToCart.bind(this))
+            block.classList.add('card')
+            block.innerHTML = `<h3>${this._name}</h3>
+         <img class="card_img" src="${this._img}" />
+         Цена за кг - ${this._price} руб`
+            const btn = new Button('Добавить', this.addToCart.bind(this))
             btn.render(block)
-
             placeToRender.appendChild(block)
         }
     }
+
 }
 
 class Cart {
-}
+    _items = []
+    _tempItems = []
 
-class CartItem {
-    name = ''
-    price = 0
-    img = ''
+    constructor() {
+        this.render()
+    }
 
-    constructor(GoodItemInstance) {
-        this.name = GoodItemInstance._name
-        this.price = GoodItemInstance._price
-        this.img = GoodItemInstance._img
+    add(item) {
+        if (this._items.length > 0) {
+            this._items.forEach(Good => {
+                if (Good._name === item.name) {
+                    item = { name: item.name, price: item.price, quantity: (item.quantity + Good._quantity) }
+                }
+                else {
+                    console.log(Good)
+                    this._tempItems.push(Good)
+                    console.log(this._tempItems)
+                }
+
+            })
+            this._tempItems.push(new CartItem(item))
+            this._items = this._tempItems
+            this._tempItems = []
+        }
+        else {
+            this._items.push(new CartItem(item))
+        }
+        console.log(this._items)
         this.render()
     }
 
     render() {
-        const placeToRender = document.querySelector('.cart-list')
-        if (placeToRender) {
-            const block = document.createElement('div')
-
-            block.innerHTML = `
-        <p>Товар: ${this.name}<p>
-        <img src="${this.img}" />
-        `
-        placeToRender.appendChild(block)
+        const block = document.querySelector('.table')
+        if (block) {
+            block.innerHTML = "<tr><th>Наименование</th><th>Кол-во</th><th>Цена</th><th>Сумма</th></tr>"
         }
+        this._items.forEach(Good => {
+            Good.render()
+        })
     }
 }
 
-const CartInstane = new Cart()
-const ListInstance = new List(CartInstane)
+class CartItem {
+    _name = ''
+    _price = 0
+    _quantity = 1
+
+    constructor({ name, price, quantity }) {
+        this._name = name
+        this._price = price
+        this._quantity = quantity
+    }
+
+    render() {
+        const placeToRender = document.querySelector('.table')
+        const block = document.createElement('tr')
+        block.classList.add('row')
+        block.innerHTML = `<tr><td>${this._name}</td><td>${this._quantity}</td><td>${this._price}</td><td>${this._price * this._quantity}</td></tr>`
+        placeToRender.appendChild(block)
+    }
+
+
+}
+const CartInstance = new Cart()
+new List(CartInstance)

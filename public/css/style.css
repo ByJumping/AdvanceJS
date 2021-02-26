@@ -4,27 +4,13 @@
 }
 
 .center {
-    padding-left: calc(50% - 590px);
-    padding-right: calc(50% - 590px);
+    padding-left: calc(50% - 790px);
+    padding-right: calc(50% - 790px);
 }
 
 .header {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-}
-
-.goods-list {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 30px;
-    margin-bottom: 60px;
-}
-
-.cart-list {
-    display: flex;
-    justify-content: center;
     align-items: center;
 }
 
