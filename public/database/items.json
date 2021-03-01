@@ -1,0 +1,7 @@
+{
+    "data": [
+        { "name": "Апельсин", "price": 300, "img": "./img/orange.jpg" },
+        { "name": "Груша", "price": 450, "img": "./img/pear.jpg" },
+        { "name": "Яблоко", "price": 180, "img": "./img/apple.jpg" }
+    ]
+}
